@@ -81,11 +81,15 @@ class Member(object):
             mb = cls.member_lst[cls.now_in - 1]
             if input('비밀번호를 입력해주세요: ') == mb.pw:
                 del cls.member_lst[cls.now_in - 1]
-                # cls.member_lst[cls.now_in - 1] 대신에 mb 로는 삭제 안되는 지 여쭤보기
+                # del mb
+                # id는 같은데 왜 mb 로는 삭제가 안되는 것이냐.
+                # id_주소는 참조할 뿐 변수 삭제가 주소(공간) 삭제가 되지는 않는다.
                 print('탈퇴후 재가입은 일주일 후 가능합니다.')
                 cls.now_in = 0
             else:
                 print('비밀번호가 틀렸습니다.')
+        else:
+            print('로그인 해주세요.')
 
     @staticmethod
     def main():
