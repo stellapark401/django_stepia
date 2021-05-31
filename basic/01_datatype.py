@@ -1,5 +1,5 @@
-# ********************
-# ======Data Type=====
+# *********************************
+# ============Data Type============
 
 '''
 Python has 5 standard types.
@@ -7,14 +7,15 @@ Python has 5 standard types.
         ML
             Numbers: int(16 bits), float(32 bits), complex
         NL
-            String: str( = [' ', ' ', ' ',...])
+            String: str( = [' ', ' ', ' ',...]): It has a list of characters structure,
+                                                 thus, it is either scalar or vector.
     vector
         sequential
             list, tuple     : var., const.
         hash
             dictionary, set : var., const.
 '''
-lst = ['abcd', 786, 2.24, 'john', 78.2]
+lst = ['abc', 786, 2.24, 'john', 78.2]
 tiny_lst = [123, 'john']
 # List
 lst.append('100')
@@ -26,7 +27,7 @@ for i, j in enumerate(lst):
 print(lst)
 
 # Tuple
-tup = ('abcd', 786, 2.23, 'john', 70.2)
+tup = ('abc', 786, 2.23, 'john', 70.2)
 tiny_tup = (123, 'john')
 tup += '100',
 print(tup)
@@ -36,13 +37,13 @@ for i, j in enumerate(tup):
         tup = tup[:i] + tup[i + 1:]
 
 # Dictionary
-dt = {'abcd': 786, 'john': 70.2}
+dt = {'abc': 786, 'john': 70.2}
 tiny_dt = {'홍': '30세'}
 dt['tom'] = '100'
 print(dt)
 for k, v in tiny_dt.items():
     dt[k] = v
-del dt['abcd']
+del dt['abc']
 
 # Set
 st = {'a', 'b', 'c'}

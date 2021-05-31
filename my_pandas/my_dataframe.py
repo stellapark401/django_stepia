@@ -1,0 +1,2 @@
+class MyDataFrame(object):
+    pass

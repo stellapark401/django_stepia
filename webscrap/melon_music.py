@@ -26,11 +26,14 @@ class MelonMusic(object):
     @staticmethod
     def form_df():
         pre_df = {'title': [], 'artist': []}
+        index_list = []
         for i in range(100):
             pre_df['title'].append(MelonMusic.rank_dict[i][0])
             pre_df['artist'].append(MelonMusic.rank_dict[i][1])
-        df = pd.DataFrame(pre_df)
-        # df.to_csv("C:\Users\\bitcamp\Desktop\estelle", header=False, index=False)
+            index_list.append(f'{i + 1}위')
+        df = pd.DataFrame(pre_df, index=index_list)
+        print(df)
+        df.to_csv('data.melon.csv')
 
     @staticmethod
     def main():

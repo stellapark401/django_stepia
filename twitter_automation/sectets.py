@@ -4,7 +4,7 @@ from selenium.webdriver import ActionChains
 from selenium.webdriver.chrome.options import Options
 
 
-def get_credentials():
+def get_credentials() -> dict:
     credentials = {}
     with open('credentials.txt') as fh:
         for line in fh.readlines():

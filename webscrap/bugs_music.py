@@ -6,17 +6,18 @@ import pandas as pd
 class BugsMusic(object):
     url = ''
     rank_dict = dict()
+    df_src_index = []
 
-    @staticmethod
-    def get_ranks(url):
+    @classmethod
+    def get_ranks(cls, url):
         soup = BeautifulSoup(urlopen(url), 'lxml')
-        for link in soup.find_all(name='tr', attrs={'rowtype': 'track'}):
-            rank = int(link.find('div', {'class': 'ranking'}).find('strong').text) - 1
-            BugsMusic.rank_dict[rank] = (link.find('p', {'class': 'artist'}).find('a').text, link.find('p', {'class': 'title'}).find('a').text)
-        if len(BugsMusic.rank_dict) == 100:
-            print('100위까지 차트를 읽어왔습니다.')
-        else:
-            print('다시 시도해주세요.')
+        BugsMusic.rank_dict['title'] = []
+        BugsMusic.rank_dict['artist'] = []
+        for link in soup.find('div', id='CHARTrealtime').find('tbody').find_all('tr'):
+            temp = link.find('div', {'class': 'ranking'}).find('strong').text
+            BugsMusic.df_src_index.append(f'{temp}위')
+            BugsMusic.rank_dict['artist'].append(link.find('p', {'class': 'artist'}).find('a').text)
+            BugsMusic.rank_dict['title'].append(link.find('p', {'adult_yn': "N", 'class': "title"}).find('a').text)
 
     @staticmethod
     def search_rank():
@@ -25,17 +26,15 @@ class BugsMusic(object):
 
     @staticmethod
     def form_df():
-        pre_df = {'title': [], 'artist': []}
-        for i in range(100):
-            pre_df['title'].append(BugsMusic.rank_dict[i][1])
-            pre_df['artist'].append(BugsMusic.rank_dict[i][0])
-        df = pd.DataFrame(pre_df)
+        df = pd.DataFrame(BugsMusic.rank_dict, index=BugsMusic.df_src_index)
         print(df)
+        df.to_csv('./data.bugs.csv', sep=',', na_rep='NaN')
 
     @staticmethod
     def main():
         while True:
-            menu = int(input("Input the url\t\t1\nGet ranks\t\t\t2\nSearch rank\t\t\t3\nForm a dataframe\t4\nExit\t\t\t\t0"))
+            menu = int(input("Input the url\t\t1\nGet ranks\t\t\t2\nSearch rank\t\t\t"
+                             "3\nForm a dataframe\t4\nExit\t\t\t\t0"))
             if menu == 1:
                 BugsMusic.url = input('URL 입력: ')
             elif menu == 2:
