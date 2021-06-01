@@ -1,6 +1,7 @@
 from titanic.views.controller import Controller
 from titanic.templates.plot import Plot
 from titanic.views.test import Test
+from titanic.models.service import Service
 
 
 if __name__ == '__main__':
