@@ -2,13 +2,13 @@ from titanic.models.service import Service
 import matplotlib.pyplot as plt
 from matplotlib import font_manager, rc
 import seaborn as sns
-rc('font', family = font_manager.FontProperties(fname='C:\Windows\Fonts\H2GTRE.ttf').get_name())
+rc('font', family=font_manager.FontProperties(fname='C:\Windows\Fonts\H2GTRE.ttf').get_name())
 
 
 # 데이터 시각화해서 보여주는 코드
 class Plot(object):
 
-    service: object = Service()
+    service = Service()
 
     def __init__(self, f_name):
         self.this = self.service.new_model(f_name)

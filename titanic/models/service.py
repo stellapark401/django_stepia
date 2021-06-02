@@ -1,5 +1,6 @@
 # 파이썬은 일반 디렉토리 무시하니 root python package 에서 시작한다.
 import pandas as pd
+import numpy as np
 
 from titanic.models.dataset import Dataset
 
@@ -47,9 +48,9 @@ class Service(object):
 
     @staticmethod
     def title_nominal(this):
-        for dataset in [this.train, this.test]:
+        for dataset in this.train, this.test:
             dataset['Title'] = dataset.Name.str.extract('([A-Za-z]+)\.', expand=False)
-        for dataset in [this.train, this.test]:
+        for dataset in this.train, this.test:
             dataset['Title'] = dataset['Title'].replace(['Capt', 'Col', 'Don', 'Dr', 'Major', 'Rev', 'Jonkheer', 'Dona'], 'Rare')
             dataset['Title'] = dataset['Title'].replace(['Countess', 'Lady', 'Sir'], 'Royal')
             dataset['Title'] = dataset['Title'].replace('Mlle', 'Mr')
@@ -74,6 +75,12 @@ class Service(object):
 
     @staticmethod
     def age_ordinal(this):
+        for data in (this.train, this.test):
+            data['Age'] = data['Age'].fillna(-0.5)
+            bins = [-1, 0, 5, 12, 18, 24, 35, 60, np.inf]
+            labels = ['Unknown', 'Baby', 'Child', 'Teenager', 'Student', 'Young Adult', 'Adult', 'Senior']
+            data['AgeGroup'] = pd.cut(data['Age'], bins=bins, labels=labels)
+            data['AgeGroup'] = data['AgeGroup'].map({'Unknown': 0, 'Baby': 1, 'Child': 2, 'Teenager': 3, 'Student': 4, 'Young Adult': 5, 'Adult': 6, 'Senior': 7})
         return this
 
     @staticmethod
