@@ -18,9 +18,11 @@ if __name__ == '__main__':
             plot.draw_by_embarked()
             plot.draw_by_sex()
         elif mn == 3:
-            controller.modelling('train.csv', 'test.csv')
+            df = controller.modelling('train.csv', 'test.csv')
         elif mn == 4:
-            pass
+            controller.learning('train.csv', 'test.csv')
+        elif mn == 5:
+            controller.summit('train.csv', 'test.csv')
         elif mn == 0:
             break
         else:

@@ -1,7 +1,9 @@
 # 파이썬은 일반 디렉토리 무시하니 root python package 에서 시작한다.
 import pandas as pd
 import numpy as np
-
+from sklearn.svm import SVC
+from sklearn.model_selection import KFold
+from sklearn.model_selection import cross_val_score
 from titanic.models.dataset import Dataset
 
 
@@ -37,13 +39,19 @@ class Service(object):
     def embarked_nominal(this):
         this.train = this.train.fillna({'Embarked': 'S'})
         this.test = this.test.fillna({'Embarked': 'S'})
-        print(type(this.train['Embarked']))
         this.train['Embarked'] = this.train['Embarked'].replace('S', 1).replace('C', 2).replace('Q', 3)
         this.test['Embarked'] = this.test['Embarked'].replace('S', 1).replace('C', 2).replace('Q', 3)
         return this
 
     @staticmethod
     def fare_band_nominal(this):
+        this.train['Fare'] = this.train['Fare'].fillna(0)
+        this.train['FareBand'] = pd.qcut(this.train['Fare'], 4, labels=[2, 4, 6, 8])
+        # bins = list(pd.qcut(this.train['Fare'], 4, labels=[1, 2, 3, 4], retbins=True))[1]
+        this.test['Fare'] = this.test['Fare'].fillna(0)
+        this.test['FareBand'] = pd.cut(this.test['Fare'], bins=(-0.001, 7.9104, 14.4542, 31., 512.3292), labels=[2, 4, 6, 8])
+        # print(list(this.test['FareBand']))
+        # (-0.001, 7.9104, 14.4542, 31., 512.3292)
         return this
 
     @staticmethod
@@ -84,5 +92,11 @@ class Service(object):
         return this
 
     @staticmethod
-    def create_k_fold(this):
-        return this
+    def create_k_fold():
+        return KFold(n_splits=10, shuffle=True, random_state=0)
+
+    @staticmethod
+    def accuracy_by_svm(this):
+        score = cross_val_score(SVC(), this.train, this.label, cv=KFold(n_splits=10, shuffle=True, random_state=0)
+                                , n_jobs=1, scoring='accuracy')
+        return round(np.mean(score) * 100, 2)

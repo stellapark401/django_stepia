@@ -8,8 +8,8 @@ class Dataset(object):
     # context 는 파일 경로 등을 지정할 변수
     context: str
     f_name: str
-    train: str
-    test: str
+    train: object
+    test: object
     # passenger id 는 정수지만, 외부로 들락이는 값은 str 으로 지정한다.
     id: str
     label: str
@@ -28,13 +28,13 @@ class Dataset(object):
     def f_name(self, f_name): self._f_name = f_name
 
     @property
-    def train(self) -> str: return self._train
+    def train(self) -> object: return self._train
 
     @train.setter
     def train(self, train): self._train = train
 
     @property
-    def test(self) -> str: return self._test
+    def test(self) -> object: return self._test
 
     @test.setter
     def test(self, test): self._test = test
